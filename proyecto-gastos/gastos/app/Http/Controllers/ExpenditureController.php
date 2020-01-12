@@ -18,11 +18,12 @@ class ExpenditureController extends Controller
     public function index()
     {
         $expenditure = Expenditure::all();
+        //$expenditure = $this->expenditure->orderBy('date', 'DESC')->get(); 
         $categories = Category::all();
 
         return view('private.expenditures')
             ->with('categories', $categories)
-             ->with('gastos', $expenditure);
+            ->with('gastos', $expenditure);
     }
 
     /**
@@ -43,6 +44,16 @@ class ExpenditureController extends Controller
      */
     public function store(Request $request)
     {
+        $expenditure = new Expenditure();
+        $expenditure->date = $request->date;
+        $expenditure->description = $request->descripcion;
+        $expenditure->amount = $request->amount;
+        $expenditure->date = $request->fecha;
+        $expenditure->type_id = $request->tipo_id;
+
+        $expenditure->save();
+
+        return redirect()->route('expenditures.index');
     }
 
     /**

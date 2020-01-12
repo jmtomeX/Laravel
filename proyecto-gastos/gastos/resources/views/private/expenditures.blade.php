@@ -12,33 +12,33 @@
                     <div class="col">
                         <div class="col-6">
                             <label for="categoria_id" class="col-form-label">SELECIONAR CATEGORÍA</label>
-                            <select name="categoria_id" class="form-control" id="categoria_id" onchange="getTypes()">
-                                @foreach ($categories as $cat)
+                            <select name="categoria_id" class="custom-select mb-2 mr-sm-2 mb-sm-0" id="categoria_id" onchange="getTypes()">
+                            <option selected>Seleccionar
+                            @foreach ($categories as $cat)
                                 <option value="{{$cat-> id}}">{{$cat-> description}}</option>
                                 @endforeach
                             </select>
                             <label for="tipo_id" class="col-form-label">SELECIONAR TIPO</label>
-                            <select name="tipo_id" id="tipo_id" class="form-control" disabled>
-
+                            <select name="tipo_id" id="tipo_id" class="custom-select mb-2 mr-sm-2 mb-sm-0" disabled>
                             </select>
                         </div>
                     </div>
                     <div class="col">
-
+                        @php ($date_now = date('Y-m-d'))
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="titulo" class="col-form-label">TITULO TIPO DE GASTO</label>
                                 <input type="text" class="form-control" id="descripcion" name="descripcion">
-                                <label for="fecha" class="col-form-label">Fecha de pago</label>
-                                <input id="fecha" name="fecha" type='date' class="form-control" />
+
+                                <label for="fecha" class="col-form-label">FECHA DE PAGO</label>
+                                <input id="fecha" name="fecha" type='date' class="form-control" value="{{$date_now}}" />
+
+                                <label for="amount" class="col-form-label">CANTIDAD</label>
+                                <input type="number" name="amount" class="form-control col-4" id="amount">
                             </div>
 
-                      
-                            <!--
-                                    Nota Se accede a todas las funciones a través del atributo de datos, p. Ej. 
-                                    $('#datetimepicker').data("DateTimePicker").FUNCTION() -->
 
-                            <button type="submit" class="btn btn-primary">Añadir Gasto</button>
+                            <button type="submit" class="btn btn-primary col-12">Añadir Gasto</button>
 
                         </div>
                     </div>
@@ -46,7 +46,7 @@
             </form>
         </div>
 
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="col-12">
                 <h1>Gastos</h1>
             </div>
@@ -58,6 +58,7 @@
                             <th scope="col">Gasto</th>
                             <th scope="col">Cantidad</th>
                             <th scope="col">Fecha</th>
+                            <th scope="col">Tipo de gasto</th>
                             <th scope="col"></th>
                             <th scope="col"></th>
                         </tr>
@@ -70,13 +71,12 @@
                             <td>{{$gasto->description}}</td>
                             <td>{{$gasto->amount}}</td>
                             <td>{{$gasto->date}}</td>
-                            <!-- <td>{{$gasto->type_id}}</td> -->
-
+                            <td>{{$gasto -> type()->first() -> description}}</td>
                             <td>
                                 <form id="eliminar_{{$id_type}}" method="post" action="{{url('expenditures')}}/{{$id_type}}">
                                     @csrf
                                     <input type="hidden" name="_method" value="delete" />
-                                    <a href="#" onclick="if (confirm('¿Estás seguro que deseas eliminar el  gasto?')) document.forms['eliminar_{{$id_type}}'].submit();"><i class="fas fa-dumpster-fire"></i></a></!-->
+                                    <a href="#" onclick="if (confirm('¿Estás seguro que deseas eliminar el  gasto?')) document.forms['eliminar_{{$id_type}}'].submit();"><i class="fas fa-dumpster-fire"></i></a>
                             </td>
                             <!-- <td><a href="{{url('expenditures')}}/{{$id_type}}"><i class="fas fa-pencil-alt"></i></a></td> -->
                             <td><a href="#"><i class="fas fa-pencil-alt"></i></a></td>
@@ -90,12 +90,6 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(function() {
-        $('#datetimepicker3').datetimepicker3({
-            format: 'LT'
-        });
-    });
-
     function getTypes() {
         var categoria_id = $("#categoria_id").val();
         var tipo_id = $("#tipo_id");
@@ -125,7 +119,14 @@
                 alert(" Error");
             }
         });
+        /*
+                var $tipo = $("#tipo_id");
 
+
+                $(document).on('change', '#tipo_id', function(event) {
+                    alert($("#tipo_id").val());
+                });
+        */
     }
 </script>
 @endsection

@@ -61,6 +61,7 @@
                     </form>
                 </li>
                 <li class="nav-item dropdown">
+
                     <a id="navbarDropdown" class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         {{ Auth::user()->name }}</a>
                 </li>
@@ -85,14 +86,16 @@
             <!-- Sidebar -->
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
 
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="dist/img/users.jpg" class="img-circle elevation-2" alt="User Image">
+                    </div>
                     <div class="info">
-                        <a href="#" class="d-block"> {{ Auth::user()->name }}</a>
+                        <a href="#" class="d-block">{{ Auth::user()->name }}</a>
                     </div>
                 </div>
-
-                <!-- Sidebar Menu -->
+                             <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
@@ -173,7 +176,7 @@
         <!-- /.control-sidebar -->
         </div>
         <!-- ./wrapper -->
-        
+
         <!-- jQuery -->
         <script src="plugins/jquery/jquery.min.js"></script>
         <!-- jQuery UI 1.11.4 -->

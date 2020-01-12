@@ -10,7 +10,7 @@ class Expenditure extends Model
         'date', 'description', 'amount', 'type_id',
     ];
 
-    public function expenditure()
+    public function type()
     {
         return $this->belongsTo(Type::class);
     }
