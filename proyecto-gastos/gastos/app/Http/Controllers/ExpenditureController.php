@@ -18,12 +18,12 @@ class ExpenditureController extends Controller
     public function index()
     {
         $expenditure = Expenditure::all();
-        //$expenditure = $this->expenditure->orderBy('date', 'DESC')->get(); 
+        //$expenditure = Expenditure::orderBy('date', 'DESC')->get();
         $categories = Category::all();
 
         return view('private.expenditures')
-            ->with('categories', $categories)
-            ->with('gastos', $expenditure);
+        ->with('categories', $categories)
+        ->with('gastos', $expenditure);
     }
 
     /**

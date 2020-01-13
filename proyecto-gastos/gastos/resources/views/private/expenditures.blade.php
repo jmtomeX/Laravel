@@ -1,9 +1,9 @@
 @extends('layouts.intranet')
 
 @section('section_content')
-<div class="container">
+<div class="container-fluid p-5">
     <div class="row justify-content-center">
-        <div class="col-12">
+        <div class="col">
             <h1 class="card-header">Insertar Gastos</h1>
             <form action="{{ route('expenditures.store') }}" method="POST">
                 @csrf
@@ -12,9 +12,10 @@
                     <div class="col">
                         <div class="col-6">
                             <label for="categoria_id" class="col-form-label">SELECIONAR CATEGORÍA</label>
-                            <select name="categoria_id" class="custom-select mb-2 mr-sm-2 mb-sm-0" id="categoria_id" onchange="getTypes()">
-                            <option selected>Seleccionar
-                            @foreach ($categories as $cat)
+                            <select name="categoria_id" class="custom-select mb-2 mr-sm-2 mb-sm-0" id="categoria_id"
+                                onchange="getTypes()">
+                                <option selected>Seleccionar
+                                    @foreach ($categories as $cat)
                                 <option value="{{$cat-> id}}">{{$cat-> description}}</option>
                                 @endforeach
                             </select>
@@ -45,13 +46,11 @@
                 </div>
             </form>
         </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col p-5">
 
-        <div class="col-md-12">
-            <div class="col-12">
-                <h1>Gastos</h1>
-            </div>
-            <div class=zrow">
-                <table class="table">
+                <table id="dataTable" style="width:100%" class="table table-striped table-bordered dt-responsive nowrap">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
@@ -73,10 +72,14 @@
                             <td>{{$gasto->date}}</td>
                             <td>{{$gasto -> type()->first() -> description}}</td>
                             <td>
-                                <form id="eliminar_{{$id_type}}" method="post" action="{{url('expenditures')}}/{{$id_type}}">
+                                <form id="eliminar_{{$id_type}}" method="post"
+                                    action="{{url('expenditures')}}/{{$id_type}}">
                                     @csrf
                                     <input type="hidden" name="_method" value="delete" />
-                                    <a href="#" onclick="if (confirm('¿Estás seguro que deseas eliminar el  gasto?')) document.forms['eliminar_{{$id_type}}'].submit();"><i class="fas fa-dumpster-fire"></i></a>
+                                    <a href="#"
+                                        onclick="if (confirm('¿Estás seguro que deseas eliminar el  gasto?')) document.forms['eliminar_{{$id_type}}'].submit();"><i
+                                            class="fas fa-dumpster-fire"></i></a>
+                                </form>
                             </td>
                             <!-- <td><a href="{{url('expenditures')}}/{{$id_type}}"><i class="fas fa-pencil-alt"></i></a></td> -->
                             <td><a href="#"><i class="fas fa-pencil-alt"></i></a></td>
@@ -85,48 +88,81 @@
                         @endforeach
                     </tbody>
                 </table>
-            </div>
         </div>
     </div>
 </div>
+
+@endsection
+
+@section('js_custom')
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.js"></script>
+
 <script type="text/javascript">
-    function getTypes() {
-        var categoria_id = $("#categoria_id").val();
-        var tipo_id = $("#tipo_id");
-
-        $.ajax({
-            type: "GET",
-            url: "{{ url('expenditures/types') }}/" + categoria_id,
-            dataType: 'json',
-            success: function(data) {
-                //Por si hiciera falta:
-                //var obj = JSON.parse(data); 
-                console.log(data);
-                console.log(data.res);
-                if (data.res >= 0) {
-                    tipo_id.empty();
-                    tipo_id.removeAttr('disabled');
-                    data.datos.forEach(element => {
-                        tipo_id.append("<option value='" + element.id + "'>" + element.description);
-                        console.log(element.description);
-                    });
-
-                } else {
-                    alert("No se han podido cargar los datos")
-                }
+$(document).ready(function() {
+    $('#dataTable').DataTable( {
+        "order": [[ 3, "desc" ]],
+        "columnDefs": [
+                { "targets": [4,5,6], "orderable": false }
+            ],
+        //"lengthMenu": [ [2, 4, 8, -1], [2, 4, 8, "All"] ],
+        //"pageLength": 4
+        "language": {
+            "sProcessing":    "Procesando...",
+            "sLengthMenu":    "Mostrar _MENU_ registros",
+            "sZeroRecords":   "No se encontraron resultados",
+            "sEmptyTable":    "Ningún dato disponible en esta tabla",
+            "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix":   "",
+            "sSearch":        "Buscar:",
+            "sUrl":           "",
+            "sInfoThousands":  ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":    "Último",
+                "sNext":    "Siguiente",
+                "sPrevious": "Anterior"
             },
-            error: function(data) {
-                alert(" Error");
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
             }
-        });
-        /*
-                var $tipo = $("#tipo_id");
+        }
+    } );
+});
 
+function getTypes() {
+    var categoria_id = $("#categoria_id").val();
+    var tipo_id = $("#tipo_id");
 
-                $(document).on('change', '#tipo_id', function(event) {
-                    alert($("#tipo_id").val());
+    $.ajax({
+        type: "GET",
+        url: "{{ url('expenditures/types') }}/" + categoria_id,
+        dataType: 'json',
+        success: function(data) {
+            //Por si hiciera falta:
+            //var obj = JSON.parse(data); 
+            console.log(data);
+            console.log(data.res);
+            if (data.res >= 0) {
+                tipo_id.empty();
+                tipo_id.removeAttr('disabled');
+                data.datos.forEach(element => {
+                    tipo_id.append("<option value='" + element.id + "'>" + element.description);
+                    console.log(element.description);
                 });
-        */
-    }
+
+            } else {
+                alert("No se han podido cargar los datos")
+            }
+        },
+        error: function(data) {
+            alert(" Error");
+        }
+    });
+
+}
 </script>
 @endsection
