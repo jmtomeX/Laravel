@@ -1,5 +1,6 @@
 <?php
 
+use App\Category;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,8 +15,12 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/import-excel', function () {
-    return view('private.import-excel');
+Route::get('/import_excel', function () {
+
+    $categories = Category::all();
+    //dd($categories);
+    return view('private.import_excel')
+        ->with('cat', $categories);
 })->name('import.excel');
 
 Auth::routes();
@@ -25,9 +30,9 @@ Route::resource('categories', 'CategoryController');
 Route::resource('types', 'TypeController');
 
 // Manipulación archivos
-//Route::post('import-excel', 'import-excelController@importExcel')->name('');
+//Route::post('import_excel', 'import-excelController@importExcel')->name('');
 
-//Route::get('import-excel/categories', 'import-excelController@getCategories')->name('getCategories');
+//Route::get('import_excel/categories', 'import-excelController@getCategories')->name('getCategories');
 
 //Ruta para cargar con ajax en expenditures.blade, la lista de types partiendo de una categoria:
 Route::get('expenditures/types/{cat_id}', 'ExpenditureController@setCategoryId')->name('expenditures.types.categories');
