@@ -26,6 +26,8 @@ Route::post('productos/update/{id}', 'HomeController@updateProduct')->name('prod
 Route::get('productos/opiniones/{id}', 'HomeController@getOpinions_v2')->name('productos.opinions');
 Route::post('productos/public/setOpinion', 'HomeController@setOpinion_public')->name('productos.public.opinion');
 
+
+
 Route::get('/about', function () {
     return view('public.about');
 })->name('public.about');
