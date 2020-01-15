@@ -2,6 +2,9 @@
 
 @section('section_content')
 <div class="container-fluid p-5">
+    @isset($msg)
+    <p>{{ $msg }}</p>
+    @endisset
     <div class="row justify-content-center">
         <button class="btn btn-primary col-12" id="form-target">Mostrar Formulario</button>
         <div class="col" id="show-form">

@@ -9,6 +9,7 @@ class Expenditure extends Model
     protected $fillable = [
         'date', 'description', 'amount', 'type_id',
     ];
+    protected $guarded = [];
 
     public function type()
     {

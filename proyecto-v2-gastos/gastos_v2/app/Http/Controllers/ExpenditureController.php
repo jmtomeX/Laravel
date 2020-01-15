@@ -7,6 +7,8 @@ use App\Category;
 use App\Type;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Excel;
+use  App\Imports\ExpenditureImport;
 
 class ExpenditureController extends Controller
 {
@@ -15,7 +17,7 @@ class ExpenditureController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($msg = null)
     {
         $expenditure = Expenditure::all();
         //$expenditure = Expenditure::orderBy('date', 'DESC')->get();
@@ -23,6 +25,7 @@ class ExpenditureController extends Controller
 
         return view('private.expenditures')
         ->with('categories', $categories)
+        ->with('msg', $msg)
         ->with('gastos', $expenditure);
     }
 
@@ -123,4 +126,25 @@ class ExpenditureController extends Controller
 
         return response()->json($data);
     }
+
+    private $excel;
+
+    public function __construct(Excel $excel)
+    {
+        $this->excel = $excel;
+    }
+
+    public function import()
+    {
+        (new ExpenditureImport())->import(request()->file('your_file'), null, \Maatwebsite\Excel\Excel::XLSX);
+
+        return redirect()->route('expenditures.index', ['msg' => 'Archivo subido con exito!']);
+    }
+
+    // public function import()
+    // {
+    //     (new ExpenditureImport())->import('gastos.xlsx', null, \Maatwebsite\Excel\Excel::XLSX);
+
+    //     return redirect()->route('expenditures.index', ['msg' => 'Archivo subido con exito!']);
+    // }
 }
