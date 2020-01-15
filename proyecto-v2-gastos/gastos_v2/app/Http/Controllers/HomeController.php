@@ -73,9 +73,4 @@ class HomeController extends Controller
                 ->with('total', $total)
                 ->with('totalCats', $totalCats);
     }
-
-    public function importExcel( Request $request) {
-        $file = $request->file('file');
-    }//https://www.youtube.com/watch?v=h0H4Y0U2DGk 
-    //4.25 minuto
 }

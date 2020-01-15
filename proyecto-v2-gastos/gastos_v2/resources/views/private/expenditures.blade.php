@@ -143,7 +143,7 @@ $(document).ready(function() {
 function getTypes() {
     var categoria_id = $("#categoria_id").val();
     var tipo_id = $("#tipo_id");
-
+    
     $.ajax({
         type: "GET",
         url: "{{ url('expenditures/types') }}/" + categoria_id,

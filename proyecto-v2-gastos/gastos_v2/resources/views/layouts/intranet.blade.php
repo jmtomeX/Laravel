@@ -137,7 +137,7 @@
                             </a>
                         </li>
                         <li class="nav-item has-treeview">
-                            <a href="{{route('import-excel')}}" class="nav-link">
+                            <a href="{{route('import.excel')}}" class="nav-link">
                             <i class="nav-icon far fa-file-excel"></i>
                                 <p>
                                     Importar Excel  

@@ -10,15 +10,19 @@
                 @if(Session::has('message'))
                 <p>{{ Session::get('message') }}</p>
                 @endif
+                <div class="form-group">
                 <div class="row">
                     <div class="col">
                             <div class="col-6">
                                 <label for="categoria_id" class="col-form-label">SELECIONAR CATEGORÍA</label>
                                 <select name="categoria_id" class="custom-select mb-2 mr-sm-2 mb-sm-0" id="categoria_id">
-                                    <option selected>Seleccionar
-                                    <option value="">Culaquiera</option>
-                                </select>
+                                <option selected>Seleccionar
+                                @foreach ($categories as $cat)
+                                <option value="{{$cat-> id}}">{{$cat-> description}}</option>
+                                @endforeach
+                            </select>
                             </div>
+                            <br><br>
                         <div class="col-6">
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -29,8 +33,10 @@
                                     <label class="custom-file-label" for="inputGroupFile01">Seleccionar Archivo</label>
                                 </div>
                             </div>
+                            <br><br>
+                            <button type="submit" class="btn btn-warning col-12">Enviar archivo</button>
                         </div>
-
+                    </div>
             </form>
         </div>
     </div>

@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 Route::get('/import-excel', function () {
     return view('private.import-excel');
-})->name('import-excel');
+})->name('import.excel');
 
 Auth::routes();
 
@@ -25,7 +25,9 @@ Route::resource('categories', 'CategoryController');
 Route::resource('types', 'TypeController');
 
 // Manipulación archivos
-Route::post('import-excel', 'HomeController@importExcel')->name('import.excel');
+//Route::post('import-excel', 'import-excelController@importExcel')->name('');
+
+//Route::get('import-excel/categories', 'import-excelController@getCategories')->name('getCategories');
 
 //Ruta para cargar con ajax en expenditures.blade, la lista de types partiendo de una categoria:
 Route::get('expenditures/types/{cat_id}', 'ExpenditureController@setCategoryId')->name('expenditures.types.categories');
