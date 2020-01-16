@@ -15,6 +15,16 @@ class CategorySeeder extends Seeder
         $user = User::find(1);
 
         $category = new Category();
+        $category->description = 'General';
+        $category->user_id = $user->id;
+        $category->save();
+
+        $type = new Type();
+        $type->description = 'General';
+        $type->category_id = $category->id;
+        $type->save();
+
+        $category = new Category();
         $category->description = 'Hogar';
         $category->user_id = $user->id;
         $category->save();

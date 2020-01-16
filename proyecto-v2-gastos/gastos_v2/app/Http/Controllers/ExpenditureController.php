@@ -8,7 +8,8 @@ use App\Type;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Excel;
-use  App\Imports\ExpenditureImport;
+use App\Imports\ExpenditureImport;
+use Carbon\Carbon;
 
 class ExpenditureController extends Controller
 {
@@ -17,15 +18,23 @@ class ExpenditureController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($msg = null)
+    public function index($res = 0)
     {
         $expenditure = Expenditure::all();
         //$expenditure = Expenditure::orderBy('date', 'DESC')->get();
         $categories = Category::all();
 
+        $msg = null;
+        if ($res > 0) {
+            $msg = 'Archivo subido con exito!';
+        }
+        if ($res < 0) {
+            $msg = 'Archivo no se ha procesado!';
+        }
+
         return view('private.expenditures')
         ->with('categories', $categories)
-        ->with('msg', $msg)
+        ->with('res', $res)
         ->with('gastos', $expenditure);
     }
 
@@ -136,15 +145,40 @@ class ExpenditureController extends Controller
 
     public function import()
     {
-        (new ExpenditureImport())->import(request()->file('your_file'), null, \Maatwebsite\Excel\Excel::XLSX);
+        $res = 1;
+        try {
+            (new ExpenditureImport())->import(request()->file('your_file'), null, \Maatwebsite\Excel\Excel::XLSX);
+            //} catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+        } catch (\Exception $e) {
+            $res = -1;
+        }
 
-        return redirect()->route('expenditures.index', ['msg' => 'Archivo subido con exito!']);
+        return redirect()->route('expenditures.index', ['res' => $res]);
     }
 
+    // Sin formulario
     // public function import()
     // {
     //     (new ExpenditureImport())->import('gastos.xlsx', null, \Maatwebsite\Excel\Excel::XLSX);
 
     //     return redirect()->route('expenditures.index', ['msg' => 'Archivo subido con exito!']);
     // }
+
+    // Generar consulta entre 2 fechas y un tipo de gasto
+    public function ExpenditureGraphic()
+    {
+        $expenditure = Expenditure::all();
+        //creams 2 objetos tipo carbon con las fechas
+        $date1 = new Carbon('date_start');
+        $date2 = new Carbon('date_end');
+
+        //aplicamos Eloquent
+        $lst = Expenditure::where('date', '>=', $date1)
+                ->where('date', '<=', $date2)
+                ->where('type_id', '=', type_id)
+                ->get();
+
+        return view('private.home')
+                ->with('lstExpendToDate', $lst);
+    }
 }

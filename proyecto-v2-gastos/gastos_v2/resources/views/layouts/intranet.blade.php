@@ -95,7 +95,7 @@
 
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="dist/img/users.jpg" class="img-circle elevation-2" alt="User Image">
+                        <img src="{{asset('dist/img/users.jpg')}}" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
                         <a href="{{route('home')}}" class="d-block">{{ Auth::user()->name }}</a>
@@ -168,7 +168,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">Te has logueado correctamente</h1>
+                            <h1 class="m-0 text-dark">Te has loguedo como {{ Auth::user()->name }}</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -203,20 +203,20 @@
         <!-- ./wrapper -->
 
         <!-- jQuery -->
-        <script src="plugins/jquery/jquery.min.js"></script>
+        <script src="{{ asset('plugins/jquery/jquery.min.js')}}"></script>
         <!-- jQuery UI 1.11.4 -->
-        <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+        <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
         <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
         <script>
         $.widget.bridge('uibutton', $.ui.button)
         </script>
         <!-- <script src="{{ asset('js/function.js') }}" ></script> -->
         <!-- Bootstrap 4 -->
-        <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
         
-        <script src="dist/js/adminlte.js"></script>
+        <script src="{{ asset('dist/js/adminlte.js')}}"></script>
         <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-        <script src="dist/js/pages/dashboard.js"></script>
+        <script src="{{ asset('dist/js/pages/dashboard.js')}}"></script>
         @yield('js_custom')
 </body>
 
