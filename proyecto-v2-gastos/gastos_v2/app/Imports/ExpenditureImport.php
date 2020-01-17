@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use App\Type;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 //WithHeadingRow para que recoja la cabecera del excel
 class ExpenditureImport implements ToModel, WithValidation
@@ -52,9 +53,9 @@ class ExpenditureImport implements ToModel, WithValidation
         // pasamos a minusculas la descripción que está en el excel $row[1] y recogemos el id que está $row[1]['id']
         $type_id = $this->arrayTypes[strtolower($row[1])]['id'];
         //dd($type_id);
-        $date = date('Y-m-d', strtotime($row[0]));
+        $date = Date::excelToDateTimeObject($row[0]);
         $exp = new Expenditure([
-            'date' => "$date",
+            'date' => $date->format('Y-m-d'),
             'description' => $row[1],
             'amount' => $row[2],
             'type_id' => $type_id,

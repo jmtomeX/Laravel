@@ -35,5 +35,6 @@ Route::resource('types', 'TypeController');
 Route::get('expenditures/types/{cat_id}', 'ExpenditureController@setCategoryId')->name('expenditures.types.categories');
 
 Route::get('expenditures/{res?}', 'ExpenditureController@index')->name('expenditures.index');
-Route::post('expenditures', 'ExpenditureController@ExpenditureGraphic')->name('expenditures.Graphic');
+Route::post('expenditures/graphic', 'ExpenditureController@ExpenditureGraphic')->name('expenditures.graphic');
+Route::get('expenditures/graphic', 'ExpenditureController@graphic')->name('expenditures.graphic');
 Route::resource('expenditures', 'ExpenditureController', ['except' => ['index']]);
