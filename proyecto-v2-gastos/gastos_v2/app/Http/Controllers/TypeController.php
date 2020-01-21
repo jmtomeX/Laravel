@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Type;
-use App\Category;
+use Auth;
 use Illuminate\Http\Request;
 
 class TypeController extends Controller
@@ -15,8 +15,15 @@ class TypeController extends Controller
      */
     public function index()
     {
-        $types = Type::all();
-        $categories = Category::orderBy('description', 'Asc')->get();
+        $user = Auth::user();
+        $categories = $user->categories()->get();
+
+        //Categorias del usuario:
+        $types = Type::join('categories', 'category_id', '=', 'categories.id')
+        ->where('categories.user_id', '=', $user->id)
+        ->get();
+
+        dd($types);
 
         return view('private.types')
              ->with('categories', $categories)

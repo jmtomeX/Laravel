@@ -23,18 +23,15 @@
                     <p>Role User: @if (Auth::user()->hasRole('user')) Yes @else No @endif</p>
                 </div>
             </div>
-
-            @isset($lava)
-            <div id="pop_div"></div>
-
-            <!-- With Lava class alias -->
-            {!!$lava->render('AreaChart', 'Population', 'pop_div')!!}
-            @endisset
-
             @isset($donut)
             <div id="chart-div"></div>
             {!!$donut->render('DonutChart', 'IMDB', 'chart-div') !!}
             @endisset
+            @isset($lava)
+            <div id="pop_div"></div>
+            {!!$lava->render('AreaChart', 'Population', 'pop_div')!!}
+            @endisset
+
 
         </div>
     </div>
@@ -62,6 +59,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Mostrar Gráfica</button>
+        </div>
     </form>
 </div>
 @endsection

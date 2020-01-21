@@ -18,6 +18,7 @@ class CreateExpendituresTable extends Migration
             $table->string('description');
             $table->double('amount', 8, 2);
             $table->unsignedBigInteger('type_id');
+            $table->string('file')->nullable();
             $table->foreign('type_id')->references('id')->on('types')->onDelete('cascade');
         });
     }

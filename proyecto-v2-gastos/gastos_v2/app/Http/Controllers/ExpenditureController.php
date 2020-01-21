@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Expenditure;
 use App\Category;
 use App\Type;
+use Auth;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Excel;
@@ -20,9 +21,13 @@ class ExpenditureController extends Controller
      */
     public function index($res = 0)
     {
-        $expenditure = Expenditure::all();
+        $user = Auth::user();
+        $expenditure = Expenditure::join('types', 'type_id', '=', 'types.id')
+        ->join('categories', 'category_id', '=', 'categories.id')
+        ->where('categories.user_id', '=', $user->id)
+        ->get();
         //$expenditure = Expenditure::orderBy('date', 'DESC')->get();
-        $categories = Category::all();
+        $categories = Category::where('categories.user_id', '=', $user->id)->get();
 
         $msg = null;
         if ($res > 0) {

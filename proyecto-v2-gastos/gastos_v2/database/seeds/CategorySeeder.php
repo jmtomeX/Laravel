@@ -60,5 +60,56 @@ class CategorySeeder extends Seeder
         $type->description = 'Moto';
         $type->category_id = $category->id;
         $type->save();
+
+        /* User 2 **** */
+
+        $user = User::find(2);
+
+        $category = new Category();
+        $category->description = 'PeterGeneral';
+        $category->user_id = $user->id;
+        $category->save();
+
+        $type = new Type();
+        $type->description = 'PeterGeneral';
+        $type->category_id = $category->id;
+        $type->save();
+
+        $category = new Category();
+        $category->description = 'PeterHogar';
+        $category->user_id = $user->id;
+        $category->save();
+
+        $type = new Type();
+        $type->description = 'PeterLuz';
+        $type->category_id = $category->id;
+        $type->save();
+
+        $type = new Type();
+        $type->description = 'PeterGas';
+        $type->category_id = $category->id;
+        $type->save();
+
+        //********************* */
+
+        $category = new Category();
+        $category->description = 'PeterSeguros';
+        $category->user_id = $user->id;
+        $category->save();
+
+        $type = new Type();
+        $type->description = 'PeterCasa';
+        $type->category_id = $category->id;
+        $type->save();
+
+        $type = new Type();
+        $type->description = 'PeterCoche';
+        $type->category_id = $category->id;
+        $type->save();
+
+        $type = new Type();
+        $type->description = 'PeterMoto';
+        $type->category_id = $category->id;
+        $type->save();
     }
 }

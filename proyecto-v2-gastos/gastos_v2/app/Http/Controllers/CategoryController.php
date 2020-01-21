@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Type;
+use Auth;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -15,7 +16,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categorias = Category::all();
+        $user = Auth::user();
+        $categorias = Category::where('categories.user_id', '=', $user->id)->get();
+
         $types = Type::orderBy('description', 'Asc')->get();
         //dd($categorias);
 

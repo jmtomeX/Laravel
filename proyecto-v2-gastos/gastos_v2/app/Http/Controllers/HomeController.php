@@ -78,9 +78,12 @@ class HomeController extends Controller
             ->addNumberColumn('Cantidad €');
         //Obtenemos los gastos agrupados por fecha:
         //SQL pura y dura: SELECT date, sum(amount) as total from expenditures group by date order by date
-        $expenditures = Expenditure::groupBy('date')
-        ->selectRaw('date, sum(amount) as sum')
+        $expenditures = Expenditure::join('types', 'type_id', '=', 'types.id')
+        ->join('categories', 'category_id', '=', 'categories.id')
+        ->where('categories.user_id', '=', $user_id)
         ->orderBy('date', 'desc')
+        ->selectRaw('date, sum(amount) as sum')
+        ->groupBy('date')
         ->get();
         foreach ($expenditures as $exp) {
             $population->addRow(["$exp->date", $exp->sum]);
