@@ -36,7 +36,7 @@
                         <tr>
                             @php($id_cat = $categoria->id)
                             <th scope="row">{{$id_cat}}</th>
-                            <td>{{$categoria->description}}</td>
+                            <td>{{$categoria->category}}</td>
                            
                             <td>
                                 <form id="eliminar_{{$id_cat}}" method="post" action="{{url('categories')}}/{{$id_cat}}">

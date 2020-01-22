@@ -24,7 +24,7 @@ class ExpenditureImport implements ToModel, WithValidation
     // recogemos todos los tipos en un diccionario poniendole de clave la descripción con KeyBy y pasandolo a array nuevamente con toArray.
     public function __construct()
     {
-        $this->arrayTypes = Type::all()->keyBy('description')->toArray();
+        $this->arrayTypes = Type::all()->keyBy('type')->toArray();
         //Pasamos a minúsculas
         $this->arrayTypes = array_change_key_case($this->arrayTypes);
         //dd($this->arrayTypes);

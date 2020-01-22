@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Category;
-use App\Type;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -18,13 +17,10 @@ class CategoryController extends Controller
     {
         $user = Auth::user();
         $categorias = Category::where('categories.user_id', '=', $user->id)->get();
-
-        $types = Type::orderBy('description', 'Asc')->get();
         //dd($categorias);
 
         return view('private.categories')
-        ->with('cat', $categorias)
-        ->with('types', $types);
+        ->with('cat', $categorias);
     }
 
     /**
@@ -46,7 +42,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $categoria = new Category();
-        $categoria->description = $request->descripcion;
+        $categoria->category = $request->descripcion;
         $categoria->user_id = $request->user_id;
         //dd($categoria);
         $categoria->save();

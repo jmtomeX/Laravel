@@ -11,7 +11,7 @@
                 <label for="categorias" class="col-form-label">SELECIONAR CATEGORÍA</label>
                 <select name="categoria_id" class="form-control" id="exampleFormControlSelect1">
                 @foreach ($categories as $cat)
-                <option value="{{$cat-> id}}">{{$cat-> description}}</option>
+                <option value="{{$cat-> id}}">{{$cat-> category}}</option>
                 @endforeach
                 </select>
           
@@ -43,10 +43,10 @@
                     <tbody>
                         @foreach ($types as $tipo)
                         <tr>
-                            @php($id_type = $tipo->id)
+                            @php($id_type = $tipo->ID)
                             <th scope="row">{{$id_type}}</th>
-                            <td>{{$tipo->description}}</td>
-                            <td>{{$tipo -> category() -> first() -> description}}</td>
+                            <td>{{$tipo->DESCRIPTION}}</td>
+                            <td>{{$tipo -> category() -> first() -> category}}</td>
                             <td>
                                 <form id="eliminar_{{$id_type}}" method="post" action="{{url('types')}}/{{$id_type}}">
                                     @csrf

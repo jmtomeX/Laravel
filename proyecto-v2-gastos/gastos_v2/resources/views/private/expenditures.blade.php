@@ -36,7 +36,7 @@
     <button class="btn btn-primary col-12" id="form-target">Mostrar Formulario</button>
     <div class="col" id="show-form">
         <h1 class="card-header">Insertar Gastos</h1>
-        <form action="{{ route('expenditures.store') }}" method="POST">
+        <form action="{{ route('expenditures.store') }}" method="POST" enctype='multipart/form-data'>
             @csrf
             <div class="card-header">INSERTAR TIPO DE GASTO</div><br>
             <div class="row">
@@ -47,7 +47,7 @@
                             onchange="getTypes()">
                             <option selected>Seleccionar
                                 @foreach ($categories as $cat)
-                            <option value="{{$cat-> id}}">{{$cat-> description}}</option>
+                            <option value="{{$cat-> id}}">{{$cat-> category}}</option>
                             @endforeach
                         </select>
                         <label for="tipo_id" class="col-form-label">SELECIONAR TIPO</label>
@@ -67,11 +67,15 @@
 
                             <label for="amount" class="col-form-label">CANTIDAD</label>
                             <input type="number" name="amount" class="form-control col-4" id="amount">
+                            <br>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="your_file" name="your_file"
+                                    aria-describedby="inputGroupFileAddon01" lang="es">
+                                <label class="custom-file-label" id="text_file" for="your_file">Seleccionar
+                                    archivo para subir</label>
+                            </div>
                         </div>
-
-
                         <button type="submit" class="btn btn-primary col-12">Añadir Gasto</button>
-
                     </div>
                 </div>
             </div>
@@ -89,29 +93,39 @@
                     <th scope="col">Cantidad</th>
                     <th scope="col">Fecha</th>
                     <th scope="col">Tipo de gasto</th>
+                    <th scope="col">Archivos</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($gastos as $gasto)
+                <!-- Buscamos la imagen y sacamos la ruta  -->
+                @php ($img_url='')
+                @isset($gasto->file)
+                @php ($img_url=$gasto->file)
+                @if (strpos($gasto->file, 'http') === false)
+                @php ($img_url=asset('img_uploads')."/".$gasto->file)
+                @endif
+                @endisset
                 <tr>
-                    @php($id_type = $gasto->id)
-                    <th scope="row">{{$id_type}}</th>
+                    @php($id = $gasto->exp_id)
+                    <th scope="row">{{$id}}</th>
                     <td>{{$gasto->description}}</td>
                     <td>{{$gasto->amount}}</td>
                     <td>{{$gasto->date}}</td>
-                    <td>{{$gasto -> type()->first() -> description}}</td>
+                    <td>{{$gasto -> type()->first() -> type}}</td>
+                    <td><img src="{{$img_url}}" alt="" width="250" ></td>
                     <td>
-                        <form id="eliminar_{{$id_type}}" method="post" action="{{url('expenditures')}}/{{$id_type}}">
+                        <form id="eliminar_{{$id}}" method="post" action="{{route('expenditures.destroy',['expenditure'=>$id])}}">
                             @csrf
                             <input type="hidden" name="_method" value="delete" />
                             <a href="#"
-                                onclick="if (confirm('¿Estás seguro que deseas eliminar el  gasto?')) document.forms['eliminar_{{$id_type}}'].submit();"><i
+                                onclick="if (confirm('¿Estás seguro que deseas eliminar el  gasto?')) document.forms['eliminar_{{$id}}'].submit();"><i
                                     class="fas fa-dumpster-fire"></i></a>
                         </form>
                     </td>
-                    <!-- <td><a href="{{url('expenditures')}}/{{$id_type}}"><i class="fas fa-pencil-alt"></i></a></td> -->
+                    <!-- <td><a href="{{url('expenditures')}}/{{$id}}"><i class="fas fa-pencil-alt"></i></a></td> -->
                     <td><a href="#"><i class="fas fa-pencil-alt"></i></a></td>
 
                 </tr>
@@ -189,8 +203,8 @@ function getTypes() {
                 tipo_id.empty();
                 tipo_id.removeAttr('disabled');
                 data.datos.forEach(element => {
-                    tipo_id.append("<option value='" + element.id + "'>" + element.description);
-                    console.log(element.description);
+                    tipo_id.append("<option value='" + element.id + "'>" + element.type);
+                    console.log(element.type);
                 });
 
             } else {
@@ -203,5 +217,10 @@ function getTypes() {
     });
 
 }
+
+$('input[type="file"]').change(function(e) {
+    var fileName = e.target.files[0].name;
+    $(this).next('#text_file').html(fileName);
+})
 </script>
 @endsection

@@ -27,7 +27,7 @@ body form div .custom-file input .custom-file-input:after {
                                         <input type="file" class="custom-file-input" id="your_file" name="your_file"
                                             aria-describedby="inputGroupFileAddon01" lang="es">
                                         <label class="custom-file-label" id="text_file"
-                                            for="inputGroupFile01">Seleccionar Archivo</label>
+                                            for="your_file">Seleccionar Archivo</label>
                                     </div>
                                 </div>
                                 <br><br>

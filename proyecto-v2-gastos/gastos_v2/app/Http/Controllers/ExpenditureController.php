@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Excel;
 use App\Imports\ExpenditureImport;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class ExpenditureController extends Controller
 {
@@ -21,26 +22,25 @@ class ExpenditureController extends Controller
      */
     public function index($res = 0)
     {
+        $msg = null;
+        if ($res > 0) {
+            $msg = 'Archivo subido con exito!';
+        } else {
+            $msg = 'Archivo no se ha procesado!';
+        }
         $user = Auth::user();
-        $expenditure = Expenditure::join('types', 'type_id', '=', 'types.id')
+        $expenditures = Expenditure::join('types', 'type_id', '=', 'types.id')
         ->join('categories', 'category_id', '=', 'categories.id')
         ->where('categories.user_id', '=', $user->id)
+        ->selectRaw('expenditures.id as exp_id, date, description, amount,type_id, file, type, category_id, category')
         ->get();
         //$expenditure = Expenditure::orderBy('date', 'DESC')->get();
         $categories = Category::where('categories.user_id', '=', $user->id)->get();
 
-        $msg = null;
-        if ($res > 0) {
-            $msg = 'Archivo subido con exito!';
-        }
-        if ($res < 0) {
-            $msg = 'Archivo no se ha procesado!';
-        }
-
         return view('private.expenditures')
-        ->with('categories', $categories)
-        ->with('res', $res)
-        ->with('gastos', $expenditure);
+            ->with('categories', $categories)
+            ->with('res', $res)
+            ->with('gastos', $expenditures);
     }
 
     /**
@@ -67,6 +67,17 @@ class ExpenditureController extends Controller
         $expenditure->amount = $request->amount;
         $expenditure->date = $request->fecha;
         $expenditure->type_id = $request->tipo_id;
+        if ($request->hasFile('your_file')) {
+            /*
+            $request->validate([
+                'your_file' => 'required|image|mimes:jpeg,png,jpg,gif,pdf,xlsx,xls|max:2048',
+            ]);
+            */
+            $imageName = time().'_'.Str::random(10).'.'.$request->your_file->getClientOriginalExtension();
+
+            $request->your_file->move(public_path('img_uploads'), $imageName);
+            $expenditure->file = $imageName;
+        }
 
         $expenditure->save();
 
@@ -116,6 +127,13 @@ class ExpenditureController extends Controller
      */
     public function destroy(expenditure $expenditure)
     {
+        //Comprobamos si tiene asociado un archivo par aeliminarlo:
+        if ($expenditure->file != null) {
+            $exp_file = public_path().'/img_uploads/'.$expenditure->file;
+            if (file_exists($exp_file)) {
+                unlink($exp_file);
+            }
+        }
         $expenditure->delete();
 
         return redirect()->route('expenditures.index');
@@ -155,6 +173,7 @@ class ExpenditureController extends Controller
             (new ExpenditureImport())->import(request()->file('your_file'), null, \Maatwebsite\Excel\Excel::XLSX);
             //} catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
         } catch (\Exception $e) {
+            dd($e);
             $res = -1;
         }
 

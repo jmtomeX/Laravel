@@ -21,9 +21,10 @@ class TypeController extends Controller
         //Categorias del usuario:
         $types = Type::join('categories', 'category_id', '=', 'categories.id')
         ->where('categories.user_id', '=', $user->id)
+        ->selectRaw('types.id as ID, types.type as DESCRIPTION, category_id')
         ->get();
 
-        dd($types);
+        //dd($types);
 
         return view('private.types')
              ->with('categories', $categories)
@@ -51,7 +52,7 @@ class TypeController extends Controller
     {
         $type = new Type();
         $type->category_id = $request->categoria_id;
-        $type->description = $request->descripcion;
+        $type->type = $request->descripcion;
         $type->save();
 
         return redirect()->route('types.index');

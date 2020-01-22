@@ -44,11 +44,11 @@ class HomeController extends Controller
 
         // Sin eloquent
         /*
-        SELECT categories.description, sum(amount) as TOTAL from Expenditures
+        SELECT categories.category, sum(amount) as TOTAL from Expenditures
             INNER JOIN types ON expenditures.type_id=Types.id
             INNER JOIN categories ON types.category_id=categories.id
             where categories.user_id = 1
-            GROUP BY categories.description
+            GROUP BY categories.category
         */
 
         // Con eloquent
@@ -56,15 +56,15 @@ class HomeController extends Controller
         $totalCats = Expenditure::join('types', 'type_id', '=', 'types.id')
                 ->join('categories', 'category_id', '=', 'categories.id')
                 ->where('categories.user_id', '=', $user_id)
-                ->groupBy('categories.description')
+                ->groupBy('categories.category')
                 ->get();
                 */
         //->sum('amount');
-        $totalCats = Expenditure::select('categories.description', DB::raw('SUM(expenditures.amount) As total'))
+        $totalCats = Expenditure::select('categories.category', DB::raw('SUM(expenditures.amount) As total'))
             ->join('types', 'type_id', '=', 'types.id')
             ->join('categories', 'category_id', '=', 'categories.id')
             ->where('categories.user_id', '=', $user_id)
-            ->groupBy('categories.description')
+            ->groupBy('categories.category')
             ->get();
 
         //dd($totalCats);
