@@ -42,7 +42,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $categoria = new Category();
-        $categoria->category = $request->descripcion;
+        $categoria->category = $request->category;
         $categoria->user_id = $request->user_id;
         //dd($categoria);
         $categoria->save();

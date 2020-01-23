@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Expenditure extends Model
 {
     protected $fillable = [
-        'date', 'description', 'amount', 'type_id',
+        'date', 'description', 'amount', 'type_id', 'file',
     ];
     protected $guarded = [];
 

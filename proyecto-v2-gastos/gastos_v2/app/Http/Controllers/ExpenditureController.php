@@ -67,12 +67,14 @@ class ExpenditureController extends Controller
         $expenditure->amount = $request->amount;
         $expenditure->date = $request->fecha;
         $expenditure->type_id = $request->tipo_id;
+        // Si tiene un archivo
         if ($request->hasFile('your_file')) {
             /*
             $request->validate([
                 'your_file' => 'required|image|mimes:jpeg,png,jpg,gif,pdf,xlsx,xls|max:2048',
             ]);
             */
+            // Crea un nombre con fecha, un random y extensión
             $imageName = time().'_'.Str::random(10).'.'.$request->your_file->getClientOriginalExtension();
 
             $request->your_file->move(public_path('img_uploads'), $imageName);
@@ -91,7 +93,7 @@ class ExpenditureController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(expenditure $expenditure)
+    public function show(Expenditure $expenditure)
     {
     }
 
@@ -102,7 +104,7 @@ class ExpenditureController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(expenditure $expenditure)
+    public function edit(Expenditure $expenditure)
     {
     }
 
@@ -114,7 +116,7 @@ class ExpenditureController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, expenditure $expenditure)
+    public function update(Request $request, Expenditure $expenditure)
     {
     }
 
@@ -125,9 +127,9 @@ class ExpenditureController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(expenditure $expenditure)
+    public function destroy(Expenditure $expenditure)
     {
-        //Comprobamos si tiene asociado un archivo par aeliminarlo:
+        //Comprobamos si tiene asociado un archivo para aeliminarlo:
         if ($expenditure->file != null) {
             $exp_file = public_path().'/img_uploads/'.$expenditure->file;
             if (file_exists($exp_file)) {

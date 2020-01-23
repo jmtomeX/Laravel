@@ -15,14 +15,35 @@ class Expenditure extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'date' => $this->date,
-            'description' => $this->description,
-            'amount' => $this->amount,
-            'date' => $this->type_id,
-            'created_at' => $this->created_at->format('d/m/Y'),
-            'updated_at' => $this->updated_at->format('d/m/Y'),
-        ];
+        $res = array();
+
+        if (isset($this->exp_id)) {
+            $id = $this->exp_id;
+            $res = [
+                'id' => $this->exp_id,
+                'date' => $this->date,
+                'description' => $this->description,
+                'amount' => $this->amount,
+                'type_id' => $this->type_id,
+                'file' => $this->file,
+                'type' => $this->type,
+                'category_id' => $this->category_id,
+                'category' => $this->category,
+                //'created_at' => $this->created_at->format('d/m/Y'),
+                //'updated_at' => $this->updated_at->format('d/m/Y'),
+            ];
+        } else {
+            $res = [
+                'id' => $this->id,
+                'date' => $this->date,
+                'description' => $this->description,
+                'amount' => $this->amount,
+                'type_id' => $this->type_id,
+                'file' => $this->file,
+                //'type' => $this->type,
+            ];
+        }
+
+        return $res;
     }
 }

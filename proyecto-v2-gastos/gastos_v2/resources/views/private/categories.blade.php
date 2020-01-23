@@ -11,7 +11,7 @@
                 <div class="card-header">INSERTAR CATEGORIA</div><br>
                 <div class="form-group">
                     <label for="titulo" class="col-form-label">TTITULO CATEGORIA</label>
-                    <input type="text" class="form-control" id="descripcion" name="descripcion">
+                    <input type="text" class="form-control" id="category" name="category" required>
                 </div>              
           
                 <button type="submit" class="btn btn-primary">Añadir Categoría</button>

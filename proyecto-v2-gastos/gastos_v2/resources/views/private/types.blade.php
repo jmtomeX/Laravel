@@ -18,7 +18,7 @@
            
                 <div class="form-group">
                     <label for="titulo" class="col-form-label">TTITULO TIPO DE GASTO</label>
-                    <input type="text" class="form-control" id="descripcion" name="descripcion">
+                    <input type="text" class="form-control" id="type" name="type" required>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Añadir Tipo</button>

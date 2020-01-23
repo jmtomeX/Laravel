@@ -52,7 +52,7 @@ class TypeController extends Controller
     {
         $type = new Type();
         $type->category_id = $request->categoria_id;
-        $type->type = $request->descripcion;
+        $type->type = $request->type;
         $type->save();
 
         return redirect()->route('types.index');
