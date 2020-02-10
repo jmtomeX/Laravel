@@ -77,8 +77,14 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, category $category)
+    public function update(Request $request, $id)
     {
+        // no está acabado falta la ruta y la vista
+        $cat = Category::find($id);
+        $cat->titulo = $request->titulo;
+        $cat->update();
+
+        return redirect()->route('categorias.index');
     }
 
     /**

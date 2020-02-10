@@ -29,6 +29,7 @@
                             <th scope="col">#</th>
                             <th scope="col">Categoria</th>
                             <th scope="col"></th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,6 +47,8 @@
                                         onclick="if (confirm('¿Estás seguro que deseas eliminar la categoria?')) document.forms['eliminar_{{$id_cat}}'].submit();"><i
                                             class="fas fa-dumpster-fire"></i></a></form>
                             </td>
+                             <!-- <td><a href="{{url('categories')}}/{{$id_cat}}"><i class="fas fa-pencil-alt"></i></a></td> -->
+                             <td><a href="#"><i class="fas fa-pencil-alt"></i></a></td>
 
                         </tr>
                         @endforeach
