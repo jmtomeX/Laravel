@@ -67,6 +67,7 @@ class CategoryController extends Controller
      */
     public function edit(category $category)
     {
+        dd('OK');
     }
 
     /**

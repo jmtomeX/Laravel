@@ -70,6 +70,16 @@ class CategoryController extends Controller
      */
     public function edit(category $category)
     {
+        $user = Auth::user();
+        $categorias = Category::where('categories.user_id', '=', $user->id)->get();
+        //Comprobar que la category es del usuario actual:
+        if ($category->user_id != $user->id) {
+            $category = null;
+        }
+
+        return view('private.categories')
+            ->with('cat', $categorias)
+            ->with('cat_edit', $category);
     }
 
     /**
