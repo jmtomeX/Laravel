@@ -30,7 +30,7 @@
             </li>
             @if(isset($userName))
               <li class="nav-item" data-turbolinks="false">
-                <a href="/calendar" class="nav-link{{$_SERVER['REQUEST_URI'] == '/calendar' ? ' active' : ''}}">Calendar</a>
+                <a href="/calendar" class="nav-link{{$_SERVER['REQUEST_URI'] == '/calendar' ? ' active' : ''}}">Calendario</a>
               </li>
             @endif
           </ul>
