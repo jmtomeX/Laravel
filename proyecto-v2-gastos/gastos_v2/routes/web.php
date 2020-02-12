@@ -15,7 +15,8 @@ use App\Category;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('index');
+
 Route::get('/import', function () {
     $categories = Category::all();
     //dd($categories);

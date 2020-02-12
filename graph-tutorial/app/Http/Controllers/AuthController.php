@@ -97,7 +97,14 @@ class AuthController extends Controller
     {
         $tokenCache = new TokenCache();
         $tokenCache->clearTokens();
+      // Añadir todas las páginas que se pueden redirigir en Configuraciones de plataforma en Autentificación de Azure
+        $url = 'https://login.windows.net/'.env('OAUTH_APP_ID').'/oauth2/logout?post_logout_redirect_uri='.url('/close');
 
-        return redirect('/');
+        return redirect()->away($url)
+    }
+
+    public function close()
+    {
+        return redirect()->route('index');
     }
 }

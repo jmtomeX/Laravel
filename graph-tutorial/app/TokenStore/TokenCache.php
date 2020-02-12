@@ -22,6 +22,7 @@ class TokenCache
         session()->forget('tokenExpires');
         session()->forget('userName');
         session()->forget('userEmail');
+        //dd(session('accessToken'));
     }
 
     public function getAccessToken()

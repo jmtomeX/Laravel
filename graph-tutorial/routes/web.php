@@ -11,8 +11,9 @@
 |
 */
 
-Route::get('/', 'HomeController@welcome');
+Route::get('/', 'HomeController@welcome')->name('index');
 Route::get('/signin', 'AuthController@signin');
 Route::get('/callback', 'AuthController@callback');
 Route::get('/signout', 'AuthController@signout');
 Route::get('/calendar', 'CalendarController@calendar');
+Route::get('/close', 'AuthController@close');
